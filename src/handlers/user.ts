@@ -2,6 +2,7 @@ import { Response } from "express";
 import prisma from "../database";
 import { Request } from "express";
 import { comparePassword, generateToken, hashPassword } from "../auth/auth";
+import { catchAsync } from "../utilities/catchAsync";
 
 export const createNewUser = async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -25,7 +26,6 @@ export const createNewUser = async (req: Request, res: Response) => {
     res.status(201).json({
       success: true,
       message: "User created successfully",
-      user,
       token,
     });
   } catch (error) {
@@ -79,3 +79,12 @@ export const signin = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getUsers = catchAsync(async (req: Request, res: Response) => {
+  const users = await prisma.user.findMany();
+  res.status(200).json({
+    success: true,
+    message: "Users fetched successfully",
+    users,
+  });
+});

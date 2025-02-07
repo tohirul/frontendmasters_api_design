@@ -18,8 +18,12 @@ import {
   getUpdates,
   updateUpdate,
 } from "./handlers/update";
+import { getUsers } from "./handlers/user";
 
 const router = Router();
+
+// TODO: User routes
+router.get("/user", getUsers);
 
 // TODO product routes
 router.get("/product", (req: Request, res: Response) =>
